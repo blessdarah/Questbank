@@ -23,10 +23,12 @@ class QuestionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('course.title')
+                Forms\Components\Select::make('course_id')
+                    ->relationship('course', 'title')
                     ->required()
                     ->preload(),
-                Forms\Components\Select::make('author.name')
+                Forms\Components\Select::make('user_id')
+                    ->relationship('author', 'name')
                     ->required()
                     ->preload(),
                 Forms\Components\Textarea::make('text')
@@ -34,7 +36,6 @@ class QuestionResource extends Resource
                     ->maxLength(16777215)
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('attachments')
-                    ->required()
                     ->multiple(),
                 Forms\Components\TextInput::make('points')
                     ->required()
@@ -47,14 +48,13 @@ class QuestionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('course_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('course.title')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('author.name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('attachments')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('text')
+                    ->label('Question')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('points')
                     ->numeric()
                     ->sortable(),
@@ -89,7 +89,7 @@ class QuestionResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\AnswersRelationManager::class
         ];
     }
 

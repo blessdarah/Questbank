@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CourseResource\Pages;
-use App\Filament\Resources\CourseResource\RelationManagers;
 use App\Models\Course;
-use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -38,9 +36,14 @@ class CourseResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title')->searchable(isIndividual: true)->sortable(),
-                TextColumn::make('code')->searchable(isIndividual: true)->sortable(),
-                TextColumn::make('description')->limit(30),
+                TextColumn::make('title')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('code')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('description')
+                    ->limit(30),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
